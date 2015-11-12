@@ -1,7 +1,7 @@
 package uk.org.lidalia.net2
 
 import org.scalatest.FunSuite
-import uk.org.lidalia.lang.EncodedStringChecks
+import uk.org.lidalia.scalalang.EncodedStringChecks
 
 class FragmentTests extends FunSuite {
 

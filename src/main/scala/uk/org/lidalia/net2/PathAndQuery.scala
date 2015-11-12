@@ -1,4 +1,5 @@
-package uk.org.lidalia.net2
+package uk.org.lidalia
+package net2
 
 import uk.org.lidalia.lang.RichObject
 import uk.org.lidalia.net2.UriConstants.split
@@ -20,5 +21,5 @@ class PathAndQuery private (
   @Identity val query: ?[Query]
 ) extends RichObject
 {
-  override def toString = query.map(q => s"$path?$q") or path.toString
+  override def toString = query.map(q => s"$path?$q") getOrElse path.toString
 }

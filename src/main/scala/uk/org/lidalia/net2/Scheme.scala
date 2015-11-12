@@ -1,8 +1,9 @@
-package uk.org.lidalia.net2
+package uk.org.lidalia
+package net2
 
 import java.util.Locale
 
-import uk.org.lidalia.lang.RegexVerifiedWrappedString
+import uk.org.lidalia.scalalang.RegexVerifiedWrappedString
 
 /**
  * Models a Scheme as defined in

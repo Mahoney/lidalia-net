@@ -1,4 +1,5 @@
-package uk.org.lidalia.net2
+package uk.org.lidalia
+package net2
 
 import uk.org.lidalia.net2.UriConstants.split
 
@@ -13,7 +14,7 @@ private object UriParser {
       val hierarchicalPart = HierarchicalPart(hierarchicalPartAndRest._1)
 
       val queryAndOrFragmentStr = hierarchicalPartAndRest._2
-      val queryAndFragment = queryAndOrFragmentStr.map(parseQueryAndFragment) or (None, None)
+      val queryAndFragment = queryAndOrFragmentStr.map(parseQueryAndFragment) getOrElse (None, None)
       val query = queryAndFragment._1
       val fragment = queryAndFragment._2
 

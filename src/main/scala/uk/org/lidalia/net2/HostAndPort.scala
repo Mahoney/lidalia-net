@@ -1,10 +1,11 @@
-package uk.org.lidalia.net2
+package uk.org.lidalia
+package net2
 
 object HostAndPort {
   def apply(hostAndPortStr: String): HostAndPort = HostAndPortParser.parse(hostAndPortStr)
 
   def apply(host: Host, port: ?[Port] = None): HostAndPort = {
-    port.map(HostWithPort(host, _)) or HostWithoutPort(host)
+    port.map(HostWithPort(host, _)) getOrElse HostWithoutPort(host)
   }
 }
 

@@ -1,4 +1,5 @@
-package uk.org.lidalia.net2
+package uk.org.lidalia
+package net2
 
 object Authority {
   def apply(authorityStr: String): Authority
@@ -14,7 +15,7 @@ class Authority private(val userInfo: ?[UserInfo],
                         val hostAndPort: HostAndPort) {
 
   override def toString
-    = userInfo.map(_+"@"+hostAndPort) or hostAndPort.toString
+    = userInfo.map(_+"@"+hostAndPort) getOrElse hostAndPort.toString
 
 
   def canEqual(other: Any): Boolean = other.isInstanceOf[Authority]

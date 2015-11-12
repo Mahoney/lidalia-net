@@ -1,8 +1,9 @@
-package uk.org.lidalia.net2
+package uk.org.lidalia
+package net2
 
 import java.util.regex.Pattern
 
-import uk.org.lidalia.lang.UnsignedByte
+import uk.org.lidalia.scalalang.UnsignedByte
 
 private [net2] object IpV4AddressParser {
   val DEC_OCTET_RGX = "25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9]"

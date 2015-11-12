@@ -1,6 +1,6 @@
 package uk.org.lidalia.net2
 
-import uk.org.lidalia.lang.{PercentEncodedString, PercentEncodedStringFactory}
+import uk.org.lidalia.scalalang.{PercentEncodedString, PercentEncodedStringFactory}
 
 object Fragment extends PercentEncodedStringFactory[Fragment](UriConstants.pchar++Set('/', '?')) {
 

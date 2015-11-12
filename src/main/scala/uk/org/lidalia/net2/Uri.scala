@@ -1,4 +1,5 @@
-package uk.org.lidalia.net2
+package uk.org.lidalia
+package net2
 
 import uk.org.lidalia.lang.RichObject
 
@@ -34,8 +35,8 @@ class Uri private[net2] (
 
   override final def toString = {
     val baseUri = s"$scheme:$hierarchicalPart"
-    val uriWithQuery = query.map(q => s"$baseUri?$q") or baseUri
-    val uriWithFragment = fragment.map(f => s"$uriWithQuery#$f") or uriWithQuery
+    val uriWithQuery = query.map(q => s"$baseUri?$q") getOrElse baseUri
+    val uriWithFragment = fragment.map(f => s"$uriWithQuery#$f") getOrElse uriWithQuery
     uriWithFragment
   }
 

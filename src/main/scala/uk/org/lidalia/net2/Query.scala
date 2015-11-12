@@ -1,6 +1,7 @@
-package uk.org.lidalia.net2
+package uk.org.lidalia
+package net2
 
-import uk.org.lidalia.lang.{ConcretePercentEncodedStringFactory, EncodedString, EncodedStringFactory, PercentEncodedString, PercentEncodedStringFactory}
+import uk.org.lidalia.scalalang.{ConcretePercentEncodedStringFactory, EncodedString, EncodedStringFactory, PercentEncodedString, PercentEncodedStringFactory}
 import uk.org.lidalia.net2.UriConstants.pchar
 
 import scala.collection.immutable
@@ -56,7 +57,7 @@ final class Query private[net2] (val keyValuePairs: immutable.Seq[(QueryParamKey
   def -(key: String, values: String*): Query = this - (QueryParamKey.encode(key), values.map(QueryParamValue.encode):_*)
 
   def -(key: QueryParamKey, values: QueryParamValue*): Query = {
-    val filtered = keyValuePairs.filterNot { case (existingKey, value) => existingKey == key && value.map(values.contains(_)).or(false) }
+    val filtered = keyValuePairs.filterNot { case (existingKey, value) => existingKey == key && value.exists(values.contains(_)) }
     new Query(filtered)
   }
 
@@ -76,7 +77,7 @@ final class Query private[net2] (val keyValuePairs: immutable.Seq[(QueryParamKey
   override val factory = Query
 
   override def toString = {
-    val strings = keyValuePairs.map { case (key, value) => key + (value.map("=" + _) or "")}
+    val strings = keyValuePairs.map { case (key, value) => key + (value.map("=" + _) getOrElse "")}
     strings.mkString("&")
   }
 

@@ -5,8 +5,9 @@ import java.util.regex.Pattern
 import org.scalacheck.Gen
 import org.scalatest.PropSpec
 import org.scalatest.prop.PropertyChecks
-import uk.org.lidalia.TestUtils.{genNonEmptyStringFromChars, genRandomStringFrom, genStringFromChars}
-import uk.org.lidalia.lang.EncodedStringChecks
+import uk.org.lidalia.scalalang.{TestUtils, EncodedStringChecks}
+import TestUtils.{genNonEmptyStringFromChars, genRandomStringFrom, genStringFromChars}
+import uk.org.lidalia.scalalang.EncodedStringChecks
 
 class QueryTests
     extends PropSpec

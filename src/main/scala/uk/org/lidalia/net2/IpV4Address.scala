@@ -1,6 +1,8 @@
-package uk.org.lidalia.net2
+package uk.org.lidalia
+package net2
 
-import uk.org.lidalia.lang.{RichObject, UnsignedByte}
+import uk.org.lidalia.lang.RichObject
+import uk.org.lidalia.scalalang.UnsignedByte
 
 object IpV4Address {
 
