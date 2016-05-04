@@ -40,15 +40,12 @@ class Url private (
   override val hierarchicalPart: HierarchicalPartWithAuthority,
   query: ?[Query] = None,
   fragment: ?[Fragment] = None
-  )
-
-  extends Uri(
-    scheme,
-    hierarchicalPart,
-    query,
-    fragment
-  )
-{
+) extends Uri(
+  scheme,
+  hierarchicalPart,
+  query,
+  fragment
+) {
 
   override lazy val absoluteUri: Url = if (fragment.isEmpty) this else Url(scheme, hierarchicalPart, query, None)
 

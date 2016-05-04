@@ -10,7 +10,10 @@ object Path extends EncodedStringFactory[Path] {
 
   private val factory = new ConcretePercentEncodedStringFactory(pchar + '/')
 
-  def apply(): Path = apply(Segment.emptySegment)
+  val empty = apply()
+  val root = apply(Segment.empty, Segment.empty)
+
+  def apply(): Path = apply(Segment.empty)
 
   def apply(element: Segment, elements: Segment*): Path = apply(element :: elements.toList)
 
@@ -26,9 +29,24 @@ object Path extends EncodedStringFactory[Path] {
 }
 
 class Path private[net] (private val pathElements: immutable.Seq[Segment])
-    extends immutable.Seq[Segment] with EncodedString[Path] {
+    extends immutable.Seq[Segment] with EncodedString[Path] with UriReference {
 
   require(pathElements.nonEmpty, "Path must have at least one segment; segment can be empty")
+
+  def resolve(path: Path): Path = {
+    if (path.isAbsolute) path
+    else {
+      Path(pathElements.init ++ path.pathElements).absolutePath
+    }
+  }
+
+  lazy val absolutePath: Path = {
+    Path(pathElements.foldLeft(List[Segment]()) { (acc, elem) =>
+      if (elem == Segment.current) acc
+      else if (elem == Segment.previous) acc.init
+      else acc :+ elem
+    })
+  }
 
   override def length = pathElements.length
 
@@ -42,7 +60,7 @@ class Path private[net] (private val pathElements: immutable.Seq[Segment])
 
   override val factory = Path
 
-  val isAbsolute = length > 1 && apply(0).isEmpty
+  val isAbsolute = length > 1 && pathElements.head == Segment.empty
 
   override def equals(other: Any): Boolean = other match {
     case that: Path =>
@@ -51,4 +69,14 @@ class Path private[net] (private val pathElements: immutable.Seq[Segment])
   }
 
   override def hashCode() = pathElements.hashCode()
+
+  override private[net] def resolveTo(uri: Uri): Uri = Uri(
+    uri.scheme,
+    HierarchicalPart(
+      uri.hierarchicalPart.authority,
+      uri.hierarchicalPart.path.resolve(this)
+    ),
+    None,
+    None
+  )
 }

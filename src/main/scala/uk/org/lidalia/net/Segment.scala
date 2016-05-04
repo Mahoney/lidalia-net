@@ -7,7 +7,9 @@ object Segment extends PercentEncodedStringFactory[Segment](pchar) {
 
   def apply(pathElementStr: String) = new Segment(pathElementStr)
 
-  val emptySegment = Segment("")
+  val empty = Segment("")
+  val current = Segment(".")
+  val previous = Segment("..")
 
 }
 

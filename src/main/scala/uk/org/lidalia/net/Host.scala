@@ -1,10 +1,14 @@
-package uk.org.lidalia.net
+package uk.org.lidalia
+package net
 
 import java.net.{Inet4Address, Inet6Address, InetAddress}
 
 import scala.util.Try
 
 object Host {
+
+  val localhost = Host("localhost")
+
   def apply(hostStr: String): Host = {
     if (hostStr.startsWith("[") && hostStr.endsWith("]")) {
       val literalStr = hostStr.substring(1, hostStr.size - 1)
@@ -21,6 +25,8 @@ object Host {
 
 sealed trait Host {
   val toUriString: String
+
+  def withPort(port: ?[Port] = None): HostAndPort = HostAndPort(this, port)
 }
 
 object IpAddress {

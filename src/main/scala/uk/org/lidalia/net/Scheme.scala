@@ -17,21 +17,21 @@ object Scheme {
 
   private val VALID_SCHEME_REGEX = "^[a-zA-Z][a-zA-Z0-9\\+\\-\\.]*$".r.pattern
 
-  val HTTP   = Scheme("http",  Port(80))
-  val HTTPS  = Scheme("https", Port(443))
-  val FTP    = Scheme("ftp",   Port(21))
-  val SSH    = Scheme("ssh",   Port(22))
-  val MAILTO = new SimpleScheme("mailto")
-  val FILE   = new SimpleScheme("file")
-  val URN   = new SimpleScheme("urn")
+  val http   = Scheme("http",  Port(80))
+  val https  = Scheme("https", Port(443))
+  val ftp    = Scheme("ftp",   Port(21))
+  val ssh    = Scheme("ssh",   Port(22))
+  val mailto = new SimpleScheme("mailto")
+  val file   = new SimpleScheme("file")
+  val urn   = new SimpleScheme("urn")
 
   private val knownSchemes = List(
-    HTTP,
-    HTTPS,
-    FTP,
-    SSH,
-    MAILTO,
-    FILE
+    http,
+    https,
+    ftp,
+    ssh,
+    mailto,
+    file
   ).map{ scheme => scheme.name -> scheme }.toMap
 
   def apply(name: String): Scheme =
@@ -58,6 +58,10 @@ sealed abstract class Scheme(
 
   val name: String = mixedCaseName.toLowerCase(Locale.US)
   val defaultPort: ?[Port]
+
+  def `://`(authority: Authority): Url = Url(this, HierarchicalPartWithAuthority(authority))
+
+  def `://`(hostAndPort: HostAndPort): Url = `://`(Authority(None, hostAndPort))
 
 }
 

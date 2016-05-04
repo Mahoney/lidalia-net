@@ -4,9 +4,12 @@ package net
 object HierarchicalPart {
   def apply(hierarchicalPartStr: String): HierarchicalPart
     = HierarchicalPartParser.parse(hierarchicalPartStr)
+
+  def apply(authority: ?[Authority],
+            path: Path = Path.empty): HierarchicalPart = authority.map(HierarchicalPartWithAuthority(_, path)).getOrElse(HierarchicalPartPathOnly(path))
 }
 
-sealed abstract class HierarchicalPart {
+sealed abstract class HierarchicalPart extends UriReference {
   val authority: ?[Authority]
   val path: Path
 
@@ -28,7 +31,7 @@ sealed abstract class HierarchicalPart {
 
 object HierarchicalPartWithAuthority {
   def apply(authority: Authority,
-            path: Path) = new HierarchicalPartWithAuthority(authority, path)
+            path: Path = Path.empty) = new HierarchicalPartWithAuthority(authority, path)
 }
 
 final class HierarchicalPartWithAuthority private(
@@ -37,6 +40,12 @@ final class HierarchicalPartWithAuthority private(
 
   override def toString = "//"+authority.get+path
 
+  override private[net] def resolveTo(uri: Uri): Uri = Uri(
+    uri.scheme,
+    this,
+    None,
+    None
+  )
 }
 
 object HierarchicalPartPathOnly {
@@ -48,4 +57,14 @@ final class HierarchicalPartPathOnly private(override val path: Path) extends Hi
   override val authority = None
 
   override def toString = path.toString
+
+  override private[net] def resolveTo(uri: Uri): Uri = Uri(
+    uri.scheme,
+    HierarchicalPart(
+      uri.hierarchicalPart.authority,
+      uri.hierarchicalPart.path.resolve(this.path)
+    ),
+    None,
+    None
+  )
 }

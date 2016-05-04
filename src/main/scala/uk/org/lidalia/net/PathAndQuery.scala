@@ -19,7 +19,19 @@ object PathAndQuery {
 class PathAndQuery private (
   @Identity val path: Path,
   @Identity val query: ?[Query]
-) extends RichObject
+) extends RichObject with UriReference
 {
   override def toString = query.map(q => s"$path?$q") getOrElse path.toString
+
+  override private[net] def resolveTo(uri: Uri): Uri = {
+    Uri(
+      uri.scheme,
+      HierarchicalPart(
+        uri.hierarchicalPart.authority,
+        uri.hierarchicalPart.path.resolve(this.path)
+      ),
+      this.query,
+      None
+    )
+  }
 }

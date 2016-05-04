@@ -31,7 +31,8 @@ class Uri private[net] (
   @Identity val query: ?[Query],
   @Identity val fragment: ?[Fragment])
   extends RichObject
-  with Immutable {
+  with Immutable
+  with UriReference {
 
   override final def toString = {
     val baseUri = s"$scheme:$hierarchicalPart"
@@ -42,5 +43,9 @@ class Uri private[net] (
 
   lazy val path: Path = hierarchicalPart.path
   lazy val pathAndQuery: PathAndQuery = PathAndQuery(path, query)
-  lazy val absoluteUri: Uri = if (fragment.isEmpty) this else Uri(scheme, hierarchicalPart, query, None)
+  lazy val absoluteUri: Uri = fragment.map{_=> Uri(scheme, hierarchicalPart, query, None) }.getOrElse(this)
+
+  def resolve(uriReference: UriReference) = uriReference.resolveTo(this)
+
+  override private [net] def resolveTo(uri: Uri): Uri = this
 }

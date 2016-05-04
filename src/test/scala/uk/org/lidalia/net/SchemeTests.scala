@@ -75,7 +75,7 @@ class SchemeTests extends PropSpec with TableDrivenPropertyChecks {
   }
 
   property("Default ports") {
-    assert(Scheme.HTTP.defaultPort === Some(Port(80)))
+    assert(Scheme.http.defaultPort === Some(Port(80)))
     assert(Scheme("http").defaultPort === Some(Port(80)))
   }
 }
