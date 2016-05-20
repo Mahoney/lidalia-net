@@ -27,6 +27,8 @@ sealed abstract class HierarchicalPart extends UriReference {
     val state = Seq(path, authority)
     state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
   }
+
+  def isEmpty = authority.isEmpty && path.isEmpty
 }
 
 object HierarchicalPartWithAuthority {

@@ -42,11 +42,14 @@ class RelativeReference private[net] (
   override private [net] def resolveTo(uri: Uri): Uri = {
     Uri(
       uri.scheme,
-      HierarchicalPart(
-        hierarchicalPart.authority.orElse(uri.hierarchicalPart.authority),
-        uri.hierarchicalPart.path.resolve(path)
-      ),
-      query,
+      hierarchicalPart.authority.map { _=> hierarchicalPart}
+        .getOrElse(
+          HierarchicalPart(
+            uri.hierarchicalPart.authority,
+            uri.hierarchicalPart.path.resolve(path)
+          )
+        ),
+      if (hierarchicalPart.isEmpty && query.isEmpty) uri.query else query,
       fragment
     )
   }

@@ -14,5 +14,7 @@ object Segment extends PercentEncodedStringFactory[Segment](pchar) {
 }
 
 class Segment private (pathStr: String)
-    extends PercentEncodedString[Segment](Segment, pathStr)
+    extends PercentEncodedString[Segment](Segment, pathStr) {
+  def isSynthetic: Boolean = pathStr == "." || pathStr == ".."
+}
 
