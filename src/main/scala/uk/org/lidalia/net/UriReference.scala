@@ -6,6 +6,7 @@ object UriReference {
     UriParser.parseUriReference(ref)
   }
 }
+
 trait UriReference {
 
   private [net] def resolveTo(uri: Uri): Uri

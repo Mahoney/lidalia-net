@@ -44,6 +44,7 @@ class Uri private[net] (
   lazy val path: Path = hierarchicalPart.path
   lazy val pathAndQuery: PathAndQuery = PathAndQuery(path, query)
   lazy val absoluteUri: Uri = fragment.map{_=> Uri(scheme, hierarchicalPart, query, None) }.getOrElse(this)
+  lazy val base: Uri = resolve(Path.empty)
 
   def resolve(uriReference: UriReference) = uriReference.resolveTo(this)
 
