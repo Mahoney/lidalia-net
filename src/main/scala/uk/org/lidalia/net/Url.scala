@@ -60,10 +60,7 @@ class Url private (
     HierarchicalPartWithAuthority(
       Authority(
         None,
-        HostAndPort(
-          host,
-          resolvedPort
-        )
+        hostAndPort
       ),
       Path()
     )

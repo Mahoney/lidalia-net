@@ -83,7 +83,7 @@ object UriConstants {
 
   def split(toSplit: String, separator: String): (String, ?[String]) = {
     val elements: Array[String] = toSplit.split(separator, 2)
-    val secondElement = if (elements.size == 2) Some(elements(1)) else None
+    val secondElement = if (elements.length == 2) Some(elements(1)) else None
     (elements(0), secondElement)
   }
 }
